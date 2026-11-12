@@ -2,7 +2,7 @@ export type Lang = 'sv' | 'en';
 
 export const I18N = {
   sv: {
-    subtitle: 'TACTICAL WARFARE // PROTOCOL KRYOS-IV',
+    subtitle: 'THE PYRONITE WARS // PROTOCOL KRYOS-IV',
     selectHouseTitle: 'VÄLJ STRIDSKOALITION // DIREKTIV 09',
     selectHouseSub: 'Tre bepansrade stormakter strider om planetens sista Pyronite-reserver. Total erövring är enda utvägen.',
     startCampaign: 'INLED OPERATION // 9 SEKTORER',
@@ -52,7 +52,7 @@ export const I18N = {
     peaceExpiredToast: '⚠️ FREDSPERIOD SLUT: Fiendens pansardivisioner inleder offensiv!'
   },
   en: {
-    subtitle: 'TACTICAL WARFARE // PROTOCOL KRYOS-IV',
+    subtitle: 'THE PYRONITE WARS // PROTOCOL KRYOS-IV',
     selectHouseTitle: 'SELECT STRIKE COALITION // DIRECTIVE 09',
     selectHouseSub: 'Three armored superpowers clash for the final Pyronite deposits. Total planetary conquest is the only outcome.',
     startCampaign: 'COMMENCE PROTOCOL // 9 SECTORS',

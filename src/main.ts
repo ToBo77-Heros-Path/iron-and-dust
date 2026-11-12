@@ -418,8 +418,13 @@ class RedSectorApp {
     return `
       <header class="topbar-controls">
         <div class="brand-block">
-          <h1>RED SECTOR: DUNE PROTOCOL</h1>
-          <div class="subtitle">${this.t('subtitle')}</div>
+          <div class="brand-logo-frame">
+            <img src="assets/branding/logo.jpg" alt="Iron & Dust Logo" class="brand-logo-img" />
+          </div>
+          <div class="brand-text-col">
+            <h1>IRON &amp; DUST</h1>
+            <div class="subtitle">${this.t('subtitle')}</div>
+          </div>
         </div>
         <div class="toolbar-btns">
           <button id="btn-diff-toggle" class="tac-btn ${this.difficulty === 'recruit' ? 'active' : ''}" title="${this.t('difficultyLabel')}">

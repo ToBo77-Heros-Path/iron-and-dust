@@ -38,8 +38,21 @@ for (const p of portraits) {
   }
 }
 
+// Convert logo to Base64 data URL
+const logoPath = path.join(distDir, 'assets', 'branding', 'logo.jpg');
+if (fs.existsSync(logoPath)) {
+  const b64 = fs.readFileSync(logoPath).toString('base64');
+  const dataUri = `data:image/jpeg;base64,${b64}`;
+  jsContent = jsContent.replaceAll('assets/branding/logo.jpg', dataUri);
+}
+
 // Assemble standalone HTML
 let standaloneHtml = indexHtml;
+if (fs.existsSync(logoPath)) {
+  const b64 = fs.readFileSync(logoPath).toString('base64');
+  const dataUri = `data:image/jpeg;base64,${b64}`;
+  standaloneHtml = standaloneHtml.replaceAll('assets/branding/logo.jpg', dataUri);
+}
 // Replace CSS link with inline style
 standaloneHtml = standaloneHtml.replace(/<link rel="stylesheet"[^>]+>/, `<style>\n${cssContent}\n</style>`);
 // Replace script module with inline script
