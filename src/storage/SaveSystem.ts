@@ -2,8 +2,11 @@ import { FactionId } from '../data/factions';
 import { SerializedGameWorld } from '../engine/GameWorld';
 import { SerializedGridMap } from '../engine/GridMap';
 
+export type GameDifficulty = 'recruit' | 'veteran' | 'general';
+
 export interface CampaignProgressData {
   selectedFaction: FactionId;
+  difficulty?: GameDifficulty;
   unlockedSector: Record<FactionId, number>; // 1..9
   completedMissions: string[];
 }
@@ -49,13 +52,16 @@ export class SaveSystem {
     const raw = this.getItem(PROGRESS_KEY);
     if (raw) {
       try {
-        return JSON.parse(raw) as CampaignProgressData;
+        const parsed = JSON.parse(raw) as CampaignProgressData;
+        if (!parsed.difficulty) parsed.difficulty = 'recruit';
+        return parsed;
       } catch {
         // Ignore parse error
       }
     }
     return {
       selectedFaction: 'vanguard',
+      difficulty: 'recruit',
       unlockedSector: {
         vanguard: 1,
         directorate: 1,

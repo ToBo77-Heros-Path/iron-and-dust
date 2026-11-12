@@ -42,7 +42,14 @@ export const I18N = {
     defeatTitle: 'STRIDSFÖRLUST – MISSION FAILED',
     nextSectorBtn: 'FORTSÄTT TILL PLANETKARTAN',
     retryMissionBtn: 'SPELA OM UPPDRAGET',
-    controlsHint: 'Vänsterklick/Box: Välj | Högerklick (eller Vänsterklick på fiende/mark): Order | WASD/Pilar: Kamera | Q/E: Rotera 3D | Scroll: Zoom | Dubbelklicka MCV: Byggbas'
+    controlsHint: 'Vänsterklick/Box: Välj | Högerklick (eller Vänsterklick på fiende/mark): Order | WASD/Pilar: Kamera | Q/E: Rotera 3D | Scroll: Zoom | Dubbelklicka MCV: Byggbas',
+    difficultyLabel: 'SVÅRIGHETSGRAD',
+    diffRecruit: 'REKRYT 🔰 (3 MIN FREDSTID / LUGNT TEMPO)',
+    diffVeteran: 'VETERAN ⚔ (KLASSISK BALANS)',
+    diffGeneral: 'GENERAL 💀 (HÅRD UTMANING)',
+    peaceTimer: 'BYGGRESPIT',
+    peaceActiveToast: '🛡️ BASBYGGNADSRESPIT: Fienden avvaktar. Bygg upp bas och försvar i lugn och ro!',
+    peaceExpiredToast: '⚠️ FREDSPERIOD SLUT: Fiendens pansardivisioner inleder offensiv!'
   },
   en: {
     subtitle: 'TACTICAL WARFARE // PROTOCOL KRYOS-IV',
@@ -85,6 +92,13 @@ export const I18N = {
     defeatTitle: 'TACTICAL DEFEAT – MISSION FAILED',
     nextSectorBtn: 'PROCEED TO CONQUEST MAP',
     retryMissionBtn: 'RETRY MISSION',
-    controlsHint: 'Left-click/Drag: Select | Right-click (or Left-click enemy/ground): Order | WASD/Arrows: Pan | Q/E: Rotate 3D | Scroll: Zoom | Double-click MCV: Deploy'
+    controlsHint: 'Left-click/Drag: Select | Right-click (or Left-click enemy/ground): Order | WASD/Arrows: Pan | Q/E: Rotate 3D | Scroll: Zoom | Double-click MCV: Deploy',
+    difficultyLabel: 'DIFFICULTY',
+    diffRecruit: 'RECRUIT 🔰 (3 MIN PEACE TIME / RELAXED)',
+    diffVeteran: 'VETERAN ⚔ (BALANCED COMBAT)',
+    diffGeneral: 'GENERAL 💀 (HARDCORE RUSH)',
+    peaceTimer: 'GRACE PERIOD',
+    peaceActiveToast: '🛡️ BASE BUILDING GRACE PERIOD: Enemy forces holding position. Build your base in peace!',
+    peaceExpiredToast: '⚠️ GRACE PERIOD EXPIRED: Enemy armor divisions advancing!'
   }
 };

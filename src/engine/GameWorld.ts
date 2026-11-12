@@ -123,10 +123,16 @@ export interface GameWorldEvents {
   onToast?: (msgSv: string, msgEn: string, kind?: 'info' | 'warn' | 'danger') => void;
 }
 
+export interface GameWorldOptions extends GameWorldEvents {
+  difficulty?: 'recruit' | 'veteran' | 'general';
+}
+
 export interface SerializedGameWorld {
   nextEntityId: number;
   elapsedSec: number;
   techLevel: number;
+  difficulty?: 'recruit' | 'veteran' | 'general';
+  peaceTimerRemaining?: number;
   missionId: string;
   missionType: string;
   targetCreditsQuota?: number;
@@ -145,6 +151,12 @@ export class GameWorld {
   public nextEntityId = 1;
   public elapsedSec = 0;
   public techLevel = 9;
+  public difficulty: 'recruit' | 'veteran' | 'general' = 'recruit';
+  public peaceTimerRemaining = 180;
+  public totalPeaceTimer = 180;
+  public aiWaveCount = 0;
+  private peaceAlertTriggered = false;
+
   public missionId = 'skirmish';
   public missionType: string = 'annihilate';
   public targetCreditsQuota?: number;
@@ -167,14 +179,25 @@ export class GameWorld {
   private slabDecayTimer = 0;
   private repairTickTimer = 0;
 
-  constructor(mission: MissionDef, events: GameWorldEvents = {}) {
-    this.events = events;
+  constructor(mission: MissionDef, options: GameWorldOptions = {}) {
+    this.events = options;
+    this.difficulty = options.difficulty || 'recruit';
     this.techLevel = mission.techLevel;
     this.missionId = mission.id;
     this.missionType = mission.missionType;
     this.targetCreditsQuota = mission.targetCreditsQuota;
     this.wormActivity = mission.wormActivity;
     this.ionStormActivity = mission.ionStormActivity;
+
+    // Calculate base-building grace period (peace period) based on difficulty & tech
+    if (this.difficulty === 'recruit') {
+      this.totalPeaceTimer = Math.max(90, 180 - (this.techLevel - 1) * 10);
+    } else if (this.difficulty === 'veteran') {
+      this.totalPeaceTimer = Math.max(45, 110 - (this.techLevel - 1) * 8);
+    } else {
+      this.totalPeaceTimer = Math.max(25, 60 - (this.techLevel - 1) * 5);
+    }
+    this.peaceTimerRemaining = this.totalPeaceTimer;
 
     this.grid = new GridMap(mission.mapSize, mission.biome, mission.mapSeed);
 
@@ -190,11 +213,14 @@ export class GameWorld {
       targetUnitId: null
     };
 
+    const bonusCredits =
+      this.difficulty === 'recruit' ? 1200 : this.difficulty === 'veteran' ? 400 : 0;
+
     // Initialize Human Player (owner = 1)
     this.players[1] = {
       owner: 1,
       faction: mission.faction,
-      credits: mission.startingCredits,
+      credits: mission.startingCredits + bonusCredits,
       powerProduced: 0,
       powerConsumed: 0,
       radarOnline: false,
@@ -220,8 +246,8 @@ export class GameWorld {
       superweaponCooldownSec: 150,
       superweaponMaxSec: 150,
       superweaponReady: false,
-      aiAttackTimer: 32,
-      aiBuildTimer: 6
+      aiAttackTimer: this.peaceTimerRemaining,
+      aiBuildTimer: this.difficulty === 'recruit' ? 10 : 6
     };
 
     // Spawn Player Base (South-West plateau origin: 7, size - 16)
@@ -384,7 +410,7 @@ export class GameWorld {
       attackCooldown: 0,
       harvesterState: def.isHarvester ? 'idle' : 'idle',
       oreCarried: 0,
-      maxOreCapacity: 700,
+      maxOreCapacity: def.isHarvester ? (owner === 1 && this.difficulty === 'recruit' ? 900 : 700) : 0,
       harvestTimer: 0,
       targetOreTile: null,
       deviatedTimer: 0,
@@ -760,6 +786,20 @@ export class GameWorld {
     if (this.status !== 'playing') return;
     this.elapsedSec += dt;
 
+    // Peace Timer countdown (base building grace period)
+    if (this.peaceTimerRemaining > 0) {
+      this.peaceTimerRemaining = Math.max(0, this.peaceTimerRemaining - dt);
+      if (this.peaceTimerRemaining <= 0 && !this.peaceAlertTriggered) {
+        this.peaceAlertTriggered = true;
+        this.events.onToast?.(
+          '⚠️ FREDSPERIOD SLUT: Fiendens pansardivisioner inleder offensiv!',
+          '⚠️ GRACE PERIOD EXPIRED: Enemy armor divisions advancing!',
+          'warn'
+        );
+        this.events.onEvaSpeech?.('Warning: Enemy offensive initiated');
+      }
+    }
+
     // 1. Update Building Construction animations & Slab weather decay
     this.slabDecayTimer += dt;
     const applySlabDecay = this.slabDecayTimer >= 4.0;
@@ -1005,7 +1045,8 @@ export class GameWorld {
 
         const slowMult = u.slowedTimer > 0 ? 0.55 : 1.0;
         const stormMult = this.ionStormActiveTimer > 0 ? 0.8 : 1.0;
-        const moveSpeed = def.speed * fDef.speedBonus * slowMult * stormMult;
+        const diffMult = (u.owner === 1 && def.isHarvester && this.difficulty === 'recruit') ? 1.25 : 1.0;
+        const moveSpeed = def.speed * fDef.speedBonus * slowMult * stormMult * diffMult;
 
         if (dist <= moveSpeed * dt) {
           u.x = nextPt.x;
@@ -1487,13 +1528,17 @@ export class GameWorld {
     const ai = this.players[owner];
     if (!ai) return;
 
-    // Give AI steady trickle income so it remains competitive even if its harvester gets eaten
-    ai.credits += dt * (8 + this.techLevel * 2);
+    // Passive AI income based on difficulty: on recruit, ZERO passive income!
+    if (this.difficulty === 'general') {
+      ai.credits += dt * (4 + this.techLevel * 1.2);
+    } else if (this.difficulty === 'veteran') {
+      ai.credits += dt * (1 + this.techLevel * 0.4);
+    }
 
     // 1. AI Base Repair & Rebuild
     ai.aiBuildTimer -= dt;
     if (ai.aiBuildTimer <= 0) {
-      ai.aiBuildTimer = 5.0;
+      ai.aiBuildTimer = this.difficulty === 'recruit' ? 9.0 : this.difficulty === 'veteran' ? 6.0 : 4.5;
       for (const b of this.buildings) {
         if (b.owner === owner && b.hp < b.maxHp * 0.75) {
           b.isRepairing = true;
@@ -1513,7 +1558,6 @@ export class GameWorld {
           (u) => !u.isHarvester && !u.isEngineer && !u.isMCV
         );
         if (availUnits.length > 0 && ai.credits >= 300) {
-          // Prefer higher tech units
           availUnits.sort((a, b) => b.techLevel - a.techLevel);
           const pickPool = availUnits.slice(0, Math.min(3, availUnits.length));
           const chosen = pickPool[Math.floor(this.elapsedSec) % pickPool.length];
@@ -1522,26 +1566,76 @@ export class GameWorld {
       }
     }
 
-    // 2. AI Attack Waves
+    // 2. AI Attack Waves (Honors Peace Timer / Grace Period)
+    if (this.peaceTimerRemaining > 0) {
+      return;
+    }
+
     ai.aiAttackTimer -= dt;
     if (ai.aiAttackTimer <= 0) {
-      ai.aiAttackTimer = Math.max(24, 48 - this.techLevel * 2);
+      if (this.difficulty === 'recruit') {
+        ai.aiAttackTimer = Math.max(65, 110 - this.techLevel * 5);
+      } else if (this.difficulty === 'veteran') {
+        ai.aiAttackTimer = Math.max(40, 75 - this.techLevel * 3.5);
+      } else {
+        ai.aiAttackTimer = Math.max(22, 45 - this.techLevel * 2);
+      }
+
+      this.aiWaveCount++;
+
       const combatUnits = this.units.filter(
         (u) => u.owner === owner && !UNITS[u.unitId].isHarvester
       );
-      const playerTargets = [
-        ...this.buildings.filter((b) => b.owner === 1),
-        ...this.units.filter((u) => u.owner === 1)
-      ];
+      if (combatUnits.length === 0) return;
 
-      if (combatUnits.length >= 3 && playerTargets.length > 0) {
-        const target = playerTargets[0];
-        const tx = target.kind === 'building' ? target.tileX + 1.5 : target.x;
-        const ty = target.kind === 'building' ? target.tileY + 1.5 : target.y;
-        // Send 65% of AI combat units in wave
-        const wave = combatUnits.slice(0, Math.ceil(combatUnits.length * 0.65));
-        this.issueMoveOrder(wave, tx, ty, true);
+      // Find player target on the outer defensive perimeter (closest to AI base center)
+      const aiBaseCenterX = this.grid.size - 12;
+      const aiBaseCenterY = 11;
+
+      interface TargetCandidate {
+        x: number;
+        y: number;
+        distToAi: number;
       }
+      const candidates: TargetCandidate[] = [];
+
+      for (const b of this.buildings) {
+        if (b.owner === 1) {
+          const cx = b.tileX + b.w * 0.5;
+          const cy = b.tileY + b.h * 0.5;
+          candidates.push({ x: cx, y: cy, distToAi: Math.hypot(cx - aiBaseCenterX, cy - aiBaseCenterY) });
+        }
+      }
+      for (const u of this.units) {
+        if (u.owner === 1) {
+          candidates.push({ x: u.x, y: u.y, distToAi: Math.hypot(u.x - aiBaseCenterX, u.y - aiBaseCenterY) });
+        }
+      }
+
+      if (candidates.length === 0) return;
+
+      // Sort by closest to AI base (outer perimeter / vanguard units, NOT back ConYard!)
+      candidates.sort((a, b) => a.distToAi - b.distToAi);
+      const chosenTarget = candidates[0];
+
+      let wave: UnitEntity[] = [];
+      if (this.aiWaveCount === 1) {
+        // Wave #1: Single scout unit probing outer perimeter
+        wave = combatUnits.slice(0, 1);
+        this.events.onToast?.(
+          '⚠️ FIENTLIG SPANING: En enskild fiendepatrull närmar sig basens ytterkant!',
+          '⚠️ ENEMY SCOUT: A lone recon unit is probing your outer perimeter!',
+          'warn'
+        );
+        this.events.onEvaSpeech?.('Warning: Enemy scout approaching perimeter');
+      } else {
+        const ratio = this.difficulty === 'recruit' ? 0.35 : this.difficulty === 'veteran' ? 0.5 : 0.7;
+        const count = Math.max(1, Math.ceil(combatUnits.length * ratio));
+        const maxUnits = this.difficulty === 'recruit' ? Math.min(count, 4) : count;
+        wave = combatUnits.slice(0, maxUnits);
+      }
+
+      this.issueMoveOrder(wave, chosenTarget.x, chosenTarget.y, true);
     }
 
     // 3. AI Superweapon usage
@@ -1605,6 +1699,8 @@ export class GameWorld {
       nextEntityId: this.nextEntityId,
       elapsedSec: this.elapsedSec,
       techLevel: this.techLevel,
+      difficulty: this.difficulty,
+      peaceTimerRemaining: this.peaceTimerRemaining,
       missionId: this.missionId,
       missionType: this.missionType,
       targetCreditsQuota: this.targetCreditsQuota,
@@ -1624,6 +1720,8 @@ export class GameWorld {
     this.nextEntityId = data.nextEntityId;
     this.elapsedSec = data.elapsedSec;
     this.techLevel = data.techLevel;
+    if (data.difficulty) this.difficulty = data.difficulty;
+    if (typeof data.peaceTimerRemaining === 'number') this.peaceTimerRemaining = data.peaceTimerRemaining;
     this.missionId = data.missionId;
     this.missionType = data.missionType;
     this.targetCreditsQuota = data.targetCreditsQuota;

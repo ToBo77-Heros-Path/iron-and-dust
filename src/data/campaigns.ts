@@ -116,7 +116,7 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveEn: 'Accumulate 2,500 credits OR destroy all enemy forces in the sector.',
     cutsceneSv: 'Landsättningsfarkosterna fäller ut byggkranarna i den glödande öknen medan malmfälten glittrar vid horisonten...',
     cutsceneEn: 'Drop-ships deploy construction cranes across the scorching dunes as Pyronite veins shimmer on the horizon...',
-    startingCredits: 1800,
+    startingCredits: 3000,
     enemyCredits: 1200,
     targetCreditsQuota: 2500,
     wormActivity: 1,
@@ -140,8 +140,8 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveEn: 'Destroy all {ENEMY} structures and combat units.',
     cutsceneSv: 'Konvojer av Ore Harvesters rullar ut under beskydd av pansarbunkrar medan fiendens spaningsfordon närmar sig...',
     cutsceneEn: 'Convoys of Ore Harvesters roll out under Pillbox cover as enemy recon trikes approach through the haze...',
-    startingCredits: 2200,
-    enemyCredits: 1800,
+    startingCredits: 3500,
+    enemyCredits: 1600,
     wormActivity: 1,
     ionStormActivity: 0
   },
@@ -163,8 +163,8 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveEn: 'Build a War Factory and eliminate the {ENEMY} base in the tundra pass.',
     cutsceneSv: 'Strålkastarna från nybyggda stridsvagnar skär genom snöstormen när pansarfabriken öppnar sina portar...',
     cutsceneEn: 'Headlights from newly minted battle tanks pierce the blizzard as the War Factory doors rumble open...',
-    startingCredits: 2600,
-    enemyCredits: 2400,
+    startingCredits: 4000,
+    enemyCredits: 2200,
     wormActivity: 0,
     ionStormActivity: 1
   },
@@ -186,8 +186,8 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveEn: 'Establish radar telemetry and destroy the fortified {ENEMY} cliff base.',
     cutsceneSv: 'Radardomen snurrar igång medan artilleripjäser tar sikte mot fiendens bas över den förrädiska sandslätten...',
     cutsceneEn: 'The radar dome spins online while siege launchers calibrate coordinates across the worm-infested dunes...',
-    startingCredits: 2800,
-    enemyCredits: 2800,
+    startingCredits: 4500,
+    enemyCredits: 2600,
     wormActivity: 2,
     ionStormActivity: 0
   },
@@ -209,8 +209,8 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveEn: 'Capture or destroy the {ENEMY} central command complex.',
     cutsceneSv: 'Blixtrande energitorn lyser upp polarnatten medan ingenjörstrupper infiltrerar fiendens försvarslinje...',
     cutsceneEn: 'Crackling energy turrets illuminate the polar night as combat engineers infiltrate the enemy perimeter...',
-    startingCredits: 3200,
-    enemyCredits: 3200,
+    startingCredits: 5000,
+    enemyCredits: 3000,
     wormActivity: 0,
     ionStormActivity: 1
   },
@@ -232,8 +232,8 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveEn: 'Construct a Tech Center and crush the heavily fortified {ENEMY} glacier stronghold.',
     cutsceneSv: 'Supertunga stridsvagnar rullar ut på den frusna tundran medan jonstormar rasar i skyn...',
     cutsceneEn: 'Super-heavy tanks roll across the frozen tundra as magnetic ion lightning arcs across the sky...',
-    startingCredits: 3500,
-    enemyCredits: 3800,
+    startingCredits: 5500,
+    enemyCredits: 3500,
     wormActivity: 0,
     ionStormActivity: 2
   },
@@ -255,7 +255,7 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveEn: 'Deploy your MCV into a base and destroy all {ENEMY} structures.',
     cutsceneSv: 'En ensam Elitkommando smyger fram längs klippkanten följd av en tungt bepansrad MCV-kolonn...',
     cutsceneEn: 'A lone Elite Commando advances along the canyon rim, followed closely by an armored MCV convoy...',
-    startingCredits: 3800,
+    startingCredits: 5500,
     enemyCredits: 3600,
     wormActivity: 2,
     ionStormActivity: 0
@@ -278,8 +278,8 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveEn: 'Construct the Command Palace Superweapon and obliterate the {ENEMY} polar base.',
     cutsceneSv: 'Siloluckorna öppnas i isen och varningssirenerna tjuter över hela den norra sektorn...',
     cutsceneEn: 'Silo hatches retract through the glacier ice as nuclear and orbital warning sirens wail across the sector...',
-    startingCredits: 4200,
-    enemyCredits: 4500,
+    startingCredits: 6200,
+    enemyCredits: 4200,
     wormActivity: 0,
     ionStormActivity: 2
   },
@@ -301,8 +301,8 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveEn: 'Total dominance: Obliterate all rival bases and forces in the Imperial Citadel.',
     cutsceneSv: 'Hela horisonten brinner av rakveld, jonstrålar och mullrande pansardivisioner i slutstriden om Kryos-IV!',
     cutsceneEn: 'The entire horizon blazes with rocket barrages, orbital beams, and rumbling tank divisions in the final battle for Kryos-IV!',
-    startingCredits: 5000,
-    enemyCredits: 5500,
+    startingCredits: 7500,
+    enemyCredits: 5000,
     wormActivity: 2,
     ionStormActivity: 1
   }
@@ -339,8 +339,9 @@ export function buildAllCampaignMissions(): Record<FactionId, MissionDef[]> {
         ? []
         : [
             { buildingId: 'construction_yard', dx: 0, dy: 0, withSlab: true },
-            ...(bp.techLevel >= 2
-              ? [{ buildingId: 'power_plant' as BuildingId, dx: 4, dy: 0, withSlab: true }]
+            { buildingId: 'power_plant', dx: 4, dy: 0, withSlab: true },
+            ...(bp.techLevel >= 3
+              ? [{ buildingId: 'refinery' as BuildingId, dx: 0, dy: 4, withSlab: true }]
               : [])
           ];
 
@@ -357,8 +358,9 @@ export function buildAllCampaignMissions(): Record<FactionId, MissionDef[]> {
             { unitId: 'scout_trike', dx: 4, dy: 4 },
             { unitId: 'light_infantry', dx: 2, dy: 4 },
             { unitId: 'light_infantry', dx: 3, dy: 4 },
-            ...(bp.techLevel >= 2 ? [{ unitId: 'rocket_trooper' as UnitId, dx: 5, dy: 4 }] : []),
-            ...(bp.techLevel >= 3 ? [{ unitId: 'light_tank' as UnitId, dx: 6, dy: 3 }] : [])
+            { unitId: 'rocket_trooper', dx: 4, dy: 2 },
+            ...(bp.techLevel >= 2 ? [{ unitId: 'light_tank' as UnitId, dx: 5, dy: 3 }] : []),
+            ...(bp.techLevel >= 4 ? [{ unitId: 'medium_tank' as UnitId, dx: 6, dy: 2 }] : [])
           ];
 
       const enemyStartBuildings: StartingBuildingSpec[] = [

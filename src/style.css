@@ -544,6 +544,25 @@ html, body, #app {
   font-size: 0.85rem;
 }
 
+.peace-badge {
+  background: rgba(32, 201, 151, 0.16);
+  border: 1.5px solid #20c997;
+  color: #51cf66;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(32, 201, 151, 0.4);
+  letter-spacing: 0.05em;
+  animation: pulse-glow 2.2s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; text-shadow: 0 0 8px rgba(81, 207, 102, 0.8); }
+}
+
 .toast-stack {
   display: flex;
   flex-direction: column;

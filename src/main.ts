@@ -8,7 +8,7 @@ import { GameWorld } from './engine/GameWorld';
 import { GridMap, TerrainType } from './engine/GridMap';
 import { SceneRenderer } from './render/SceneRenderer';
 import { SpriteAtlasFactory } from './render/SpriteAtlasFactory';
-import { CampaignProgressData, SaveSystem } from './storage/SaveSystem';
+import { CampaignProgressData, GameDifficulty, SaveSystem } from './storage/SaveSystem';
 
 type ScreenMode = 'menu' | 'conquest' | 'battle' | 'editor';
 type CursorActionMode = 'normal' | 'place_structure' | 'repair' | 'sell' | 'superweapon';
@@ -25,6 +25,7 @@ class RedSectorApp {
   private lang: Lang = 'sv';
   private crtEnabled = false;
   private screen: ScreenMode = 'menu';
+  private difficulty: GameDifficulty = 'recruit';
   private progress: CampaignProgressData;
   private selectedFaction: FactionId = 'vanguard';
   private selectedSectorIndex = 1;
@@ -67,6 +68,7 @@ class RedSectorApp {
 
   constructor() {
     this.progress = SaveSystem.loadCampaignProgress();
+    this.difficulty = this.progress.difficulty || 'recruit';
     this.selectedFaction = this.progress.selectedFaction || 'vanguard';
     this.selectedSectorIndex = this.progress.unlockedSector[this.selectedFaction] || 1;
     this.activeMission = CAMPAIGNS[this.selectedFaction][this.selectedSectorIndex - 1];
@@ -90,6 +92,7 @@ class RedSectorApp {
 
   private createWorldForMission(mission: MissionDef): GameWorld {
     return new GameWorld(mission, {
+      difficulty: this.difficulty,
       onEvaSpeech: (phrase) => this.audio.speakEva(phrase),
       onUnitSpeech: (phrase) => this.audio.speakUnit(phrase),
       onSfx: (sfx) => this.audio.playSfx(sfx),
@@ -419,6 +422,9 @@ class RedSectorApp {
           <div class="subtitle">${this.t('subtitle')}</div>
         </div>
         <div class="toolbar-btns">
+          <button id="btn-diff-toggle" class="tac-btn ${this.difficulty === 'recruit' ? 'active' : ''}" title="${this.t('difficultyLabel')}">
+            ${this.difficulty === 'recruit' ? this.t('diffRecruit') : this.difficulty === 'veteran' ? this.t('diffVeteran') : this.t('diffGeneral')}
+          </button>
           <button id="btn-lang-toggle" class="tac-btn">
             🌐 ${this.lang === 'sv' ? 'SVENSKA' : 'ENGLISH'}
           </button>
@@ -439,6 +445,16 @@ class RedSectorApp {
   }
 
   private attachTopBarListeners(): void {
+    document.getElementById('btn-diff-toggle')?.addEventListener('click', () => {
+      this.difficulty =
+        this.difficulty === 'recruit' ? 'veteran' : this.difficulty === 'veteran' ? 'general' : 'recruit';
+      this.progress.difficulty = this.difficulty;
+      SaveSystem.saveCampaignProgress(this.progress);
+      if (this.screen === 'battle') {
+        this.world.difficulty = this.difficulty;
+      }
+      this.renderUI();
+    });
     document.getElementById('btn-lang-toggle')?.addEventListener('click', () => {
       this.lang = this.lang === 'sv' ? 'en' : 'sv';
       this.renderUI();
@@ -760,6 +776,11 @@ class RedSectorApp {
         this.activeMission.objectiveEn,
         'info'
       );
+      this.pushToast(
+        this.t('peaceActiveToast'),
+        this.t('peaceActiveToast'),
+        'info'
+      );
       this.renderUI();
     });
   }
@@ -772,6 +793,7 @@ class RedSectorApp {
         <div class="hud-top-left">
           <div class="mission-banner">
             <span class="sector-tag">${this.activeMission.sectorCode} // TECH ${this.world.techLevel}</span>
+            <span id="hud-peace-badge" class="peace-badge" style="display:none;"></span>
             <strong>${mTitle}</strong>
             <button id="hud-btn-save" class="ra-mini-btn" style="padding:4px 8px;">💾 ${this.t('saveGame')}</button>
             <button id="hud-btn-load" class="ra-mini-btn" style="padding:4px 8px;">📂 ${this.t('loadGame')}</button>
@@ -1117,6 +1139,20 @@ class RedSectorApp {
       powerFill.style.height = `${Math.max(12, Math.round(ratio * 100))}%`;
       powerFill.style.backgroundColor =
         p1.powerProduced < p1.powerConsumed ? '#fa5252' : '#51cf66';
+    }
+
+    const peaceBadge = document.getElementById('hud-peace-badge');
+    if (peaceBadge) {
+      if (this.world.peaceTimerRemaining > 0) {
+        const mins = Math.floor(this.world.peaceTimerRemaining / 60);
+        const secs = Math.floor(this.world.peaceTimerRemaining % 60)
+          .toString()
+          .padStart(2, '0');
+        peaceBadge.style.display = 'inline-block';
+        peaceBadge.innerHTML = `🛡️ ${this.t('peaceTimer')}: ${mins}:${secs}`;
+      } else {
+        peaceBadge.style.display = 'none';
+      }
     }
 
     const now = performance.now();
