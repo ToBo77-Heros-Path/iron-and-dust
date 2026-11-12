@@ -167,7 +167,7 @@ export class GridMap {
 
   /**
    * Checks if a building or concrete slab can be placed at top-left (tx, ty) with size (w, h).
-   * In Dune II / Red Alert:
+   * In classic RTS gameplay:
    * - Must be on 'rock' terrain
    * - Must not overlap mountains or existing buildings (unless placing a building onto existing slabs)
    * - Must be within build proximity (8 tiles) of a friendly structure of the same owner

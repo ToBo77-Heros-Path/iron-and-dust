@@ -60,7 +60,7 @@ const SECTOR_POLYGONS: { x: number; y: number }[][] = [
   [{ x: 28, y: 60 }, { x: 52, y: 62 }, { x: 50, y: 88 }, { x: 30, y: 84 }],
   // Sector 3: South-East Cryo Pass
   [{ x: 52, y: 62 }, { x: 78, y: 58 }, { x: 86, y: 84 }, { x: 50, y: 88 }],
-  // Sector 4: Western Dune Escarpment
+  // Sector 4: Western Canyon Escarpment
   [{ x: 10, y: 36 }, { x: 35, y: 35 }, { x: 28, y: 60 }, { x: 8, y: 65 }],
   // Sector 5: Central Meridian Ridge
   [{ x: 35, y: 35 }, { x: 64, y: 36 }, { x: 52, y: 62 }, { x: 28, y: 60 }],
@@ -115,7 +115,7 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveSv: 'Skörda 1 500 krediter Pyronite-malm ELLER slå ut samtliga fientliga styrkor.',
     objectiveEn: 'Harvest 1,500 credits of Pyronite ore OR destroy all enemy forces in the sector.',
     cutsceneSv: 'Landsättningsfarkosterna fäller ut byggkranarna i den glödande öknen medan malmfälten glittrar vid horisonten...',
-    cutsceneEn: 'Drop-ships deploy construction cranes across the scorching dunes as Pyronite veins shimmer on the horizon...',
+    cutsceneEn: 'Drop-ships deploy construction cranes across the scorching desert as Pyronite veins shimmer on the horizon...',
     startingCredits: 2000,
     enemyCredits: 1000,
     targetCreditsQuota: 1500,
@@ -170,7 +170,7 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
   },
   {
     sectorIndex: 4,
-    sectorCode: 'SEC-04 // DUNE-RIDGE',
+    sectorCode: 'SEC-04 // IRON-RIDGE',
     techLevel: 4,
     biome: 'desert',
     missionType: 'annihilate',
@@ -185,7 +185,7 @@ const SECTOR_BLUEPRINTS: SectorBlueprint[] = [
     objectiveSv: 'Upprätta radarövervakning och slå ut {ENEMY}s befästa klippbas.',
     objectiveEn: 'Establish radar telemetry and destroy the fortified {ENEMY} cliff base.',
     cutsceneSv: 'Radardomen snurrar igång medan artilleripjäser tar sikte mot fiendens bas över den förrädiska sandslätten...',
-    cutsceneEn: 'The radar dome spins online while siege launchers calibrate coordinates across the worm-infested dunes...',
+    cutsceneEn: 'The radar dome spins online while siege launchers calibrate coordinates across the worm-infested sands...',
     startingCredits: 3500,
     enemyCredits: 2400,
     wormActivity: 2,

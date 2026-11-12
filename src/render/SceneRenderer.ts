@@ -89,7 +89,7 @@ export class SceneRenderer {
   }
 
   /**
-   * Pre-renders the high-detail Autotile Terrain (Sculpted Sand Dunes / Tundra Snow,
+   * Pre-renders the high-detail Autotile Terrain (Sculpted Desert Sands / Tundra Snow,
    * 2.5D Rock Plateau Cliffs, and Jagged Mountain Peaks) onto an offscreen canvas.
    */
   public rebuildTerrain(world: GameWorld): void {
@@ -109,7 +109,7 @@ export class SceneRenderer {
     const ctx = this.terrainCtx;
     const isDesert = world.grid.biome === 'desert';
 
-    // 1. Base Sand Dunes / Tundra Snowdrifts
+    // 1. Base Desert Sands / Tundra Snowdrifts
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
         const px = x * tPx;
@@ -124,7 +124,7 @@ export class SceneRenderer {
           ctx.fillStyle = baseGrad;
           ctx.fillRect(px, py, tPx, tPx);
 
-          // Wavy wind-swept sand dune ripples
+          // Wavy wind-swept desert sand ripples
           ctx.strokeStyle = 'rgba(255, 232, 185, 0.22)';
           ctx.lineWidth = 1.5;
           ctx.beginPath();
@@ -720,7 +720,7 @@ export class SceneRenderer {
     }
 
     if (surfaced) {
-      // Open three-jawed Dune II Sandworm Maw!
+      // Open three-jawed Sandworm Maw!
       ctx.fillStyle = '#ff2a00';
       ctx.beginPath();
       ctx.arc(6, 0, 10, 0, Math.PI * 2);

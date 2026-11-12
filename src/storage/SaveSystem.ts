@@ -11,9 +11,10 @@ export interface CampaignProgressData {
   completedMissions: string[];
 }
 
-const PROGRESS_KEY = 'red_sector_campaign_progress_v1';
-const QUICKSAVE_KEY = 'red_sector_quicksave_battle_v1';
-const CUSTOM_MAPS_KEY = 'red_sector_custom_maps_v1';
+const PROGRESS_KEY = 'iron_and_dust_campaign_progress_v1';
+const LEGACY_PROGRESS_KEY = 'red_sector_campaign_progress_v1';
+const QUICKSAVE_KEY = 'iron_and_dust_quicksave_battle_v1';
+const CUSTOM_MAPS_KEY = 'iron_and_dust_custom_maps_v1';
 
 export interface CustomSavedMap {
   id: string;
@@ -49,7 +50,7 @@ export class SaveSystem {
   }
 
   public static loadCampaignProgress(): CampaignProgressData {
-    const raw = this.getItem(PROGRESS_KEY);
+    const raw = this.getItem(PROGRESS_KEY) || this.getItem(LEGACY_PROGRESS_KEY);
     if (raw) {
       try {
         const parsed = JSON.parse(raw) as CampaignProgressData;

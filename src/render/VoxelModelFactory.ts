@@ -436,7 +436,7 @@ export class VoxelModelFactory {
       root.add(tGroup);
       turret = tGroup;
     } else if (unitId === 'harvester') {
-      // Heavy Dune II / Red Alert Ore Harvester with front scoop and glowing ore hopper
+      // Heavy Armored Ore Harvester with front scoop and glowing ore hopper
       const treadsL = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.2, 0.18), this.treadMat);
       treadsL.position.set(0, 0.1, -0.26);
       const treadsR = treadsL.clone();

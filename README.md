@@ -1,20 +1,24 @@
-# RED SECTOR: DUNE PROTOCOL
+# IRON & DUST: THE PYRONITE WARS
 
-En taktisk 2.5D-webbstrategi inspirerad av **Dune II (Amiga)** och **Command & Conquer: Red Alert**.
+Taktiskt 3D Sci-Fi RTS i webbläsaren för tre stridande koalitioner om planeten Kryos-IV och dess Pyronite-reserver.
 
-## Köra lokalt på din PC (`localhost`)
+## Spela direkt i webbläsaren (Live)
+Spela spelet direkt online via GitHub Pages:
+👉 **[https://tobo77-heros-path.github.io/iron-and-dust/](https://tobo77-heros-path.github.io/iron-and-dust/)**
+
+## Köra lokalt på din dator (`localhost`)
 
 ```bash
-git clone https://github.com/ToBo77-Heros-Path/red-sector-dune-protocol.git
-cd red-sector-dune-protocol
+git clone https://github.com/ToBo77-Heros-Path/iron-and-dust.git
+cd iron-and-dust
 npm install
 npm run dev
 ```
 
 Öppna sedan `http://localhost:5173` i din webbläsare!
 
-## Spela direkt utan installation
-Du kan även dubbelklicka direkt på filen `dist/red_sector_standalone.html` i valfri webbläsare (all kod och grafik är inbäddad i den filen).
+## Spela offline utan installation
+Dubbelklicka direkt på filen `dist/iron_and_dust_standalone.html` i valfri webbläsare (all kod och 3D-grafik är inbäddad i den fristående HTML-filen).
 
 ## Tester & Bygge
 ```bash

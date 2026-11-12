@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const rootDir = '/home/antigravity/red-sector';
+const rootDir = process.cwd();
 const distDir = path.join(rootDir, 'dist');
 const docsDir = path.join(rootDir, 'docs');
 const artifactDir = '/home/antigravity/.gemini/jetski/brain/v1/default/jetski_remote_agents_3p/7e383483-60f8-40a5-9582-a26378009a79';
@@ -58,10 +58,10 @@ standaloneHtml = standaloneHtml.replace(/<link rel="stylesheet"[^>]+>/, `<style>
 // Replace script module with inline script
 standaloneHtml = standaloneHtml.replace(/<script type="module"[^>]+><\/script>/, `<script type="module">\n${jsContent}\n</script>`);
 
-const standaloneDistPath = path.join(distDir, 'red_sector_standalone.html');
+const standaloneDistPath = path.join(distDir, 'iron_and_dust_standalone.html');
 fs.writeFileSync(standaloneDistPath, standaloneHtml, 'utf8');
 console.log(`Wrote standalone HTML to ${standaloneDistPath} (${Math.round(standaloneHtml.length / 1024)} KB)`);
 
-const artifactPath = path.join(artifactDir, 'red_sector_dune_protocol.html');
+const artifactPath = path.join(artifactDir, 'iron_and_dust_pyronite_wars.html');
 fs.writeFileSync(artifactPath, standaloneHtml, 'utf8');
 console.log(`Wrote artifact to ${artifactPath}`);

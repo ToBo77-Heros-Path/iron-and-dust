@@ -348,7 +348,7 @@ export class GameWorld {
 
     const fDef = FACTIONS[faction];
     const maxHp = Math.round(def.hp * fDef.armorBonus);
-    // Dune II mechanic: placing a building without concrete slabs causes immediate structural penalty (65% starting HP)
+    // Concrete slab foundation mechanic: placing a building without concrete slabs causes structural penalty (65% starting HP)
     const initialHpRatio = def.isWall ? 1.0 : 0.65 + 0.35 * slabRatio;
 
     const entity: BuildingEntity = {
@@ -817,7 +817,7 @@ export class GameWorld {
         b.constructAnimProgress = Math.min(1, b.constructAnimProgress + dt * 1.4);
       }
 
-      // Dune II weather decay if placed without concrete slabs (down to 50% HP floor)
+      // Structural weather decay if placed without concrete slabs (down to 50% HP floor)
       if (applySlabDecay && b.slabRatio < 0.99 && !BUILDINGS[b.buildingId].isWall) {
         const minFloor = Math.round(b.maxHp * 0.5);
         if (b.hp > minFloor) {
@@ -1064,7 +1064,7 @@ export class GameWorld {
           u.y += (dy / dist) * moveSpeed * dt;
         }
 
-        // Infantry crushing by heavy vehicles (classic Red Alert & Dune II mechanic!)
+        // Infantry crushing by heavy vehicles (tactical armor crush mechanic)
         if (def.canCrushInfantry) {
           for (let j = this.units.length - 1; j >= 0; j--) {
             const other = this.units[j];
@@ -1431,7 +1431,7 @@ export class GameWorld {
   }
 
   private updateHazards(dt: number): void {
-    // 1. Desert Sandworm (Dune II signature hazard!)
+    // 1. Desert Sandworm hazard
     if (this.sandworm.active) {
       const w = this.sandworm;
       if (w.surfaceTimer > 0) {

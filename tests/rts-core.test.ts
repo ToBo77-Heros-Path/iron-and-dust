@@ -5,7 +5,7 @@ import { GridMap } from '../src/engine/GridMap';
 import { Pathfinder } from '../src/engine/Pathfinder';
 import { SaveSystem } from '../src/storage/SaveSystem';
 
-describe('RED SECTOR: DUNE PROTOCOL - RTS Engine Verification', () => {
+describe('IRON & DUST: THE PYRONITE WARS - RTS Engine Verification', () => {
   it('generates all 27 campaign missions (9 sectors x 3 factions) with escalating Tech Levels 1..9', () => {
     expect(CAMPAIGNS.vanguard.length).toBe(9);
     expect(CAMPAIGNS.directorate.length).toBe(9);
@@ -18,7 +18,7 @@ describe('RED SECTOR: DUNE PROTOCOL - RTS Engine Verification', () => {
     }
   });
 
-  it('enforces Dune II Concrete Slab foundation mechanics (100% HP on slab vs 65% HP without slab)', () => {
+  it('enforces Concrete Slab foundation mechanics (100% HP on slab vs 65% HP without slab)', () => {
     const mission = CAMPAIGNS.vanguard[0];
     const world = new GameWorld(mission);
 

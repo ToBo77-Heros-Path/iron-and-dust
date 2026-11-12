@@ -1023,7 +1023,7 @@ export class SpriteAtlasFactory {
       ctx.fill();
 
       if (unitId === 'sonic_artillery') {
-        // Dune II Sonic Tank dish emitter
+        // Sonic Tank dish emitter
         ctx.fillStyle = '#cbd5e1';
         ctx.beginPath();
         ctx.arc(0, 0, 7 * vScale, 0, Math.PI * 2);
