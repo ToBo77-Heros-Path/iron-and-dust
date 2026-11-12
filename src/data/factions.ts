@@ -22,6 +22,7 @@ export interface FactionDef {
   superweaponId: 'ion_cannon' | 'nuke_silo' | 'emp_pulse';
   superweaponNameSv: string;
   superweaponNameEn: string;
+  portraitImage: string;
 }
 
 export const FACTIONS: Record<FactionId, FactionDef> = {
@@ -29,15 +30,16 @@ export const FACTIONS: Record<FactionId, FactionDef> = {
     id: 'vanguard',
     name: 'House Vanguard',
     shortName: 'VANGUARD',
-    mottoSv: 'Precision, Optik & Orbital Dominans',
-    mottoEn: 'Precision, Optics & Orbital Dominance',
+    portraitImage: 'assets/mentats/vanguard_valen.jpg',
+    mottoSv: 'I LJUSET AV VÅRA PRISMAN FALLER FIENDEN',
+    mottoEn: 'IN THE PRISM LIGHT, ALL TYRANTS FALL',
     descSv:
-      'Allians- och Atreides-inspirerad militärkoalition. Specialiserad på medeltungt pansar, långdistans sonisk/prisma-artilleri, kryo-försvar och orbitala jonstrålar.',
+      'KLASSIFICERAT DIREKTIV // VANGUARD COMMAND: "I skuggan av våra orbitala fästen finns ingen plats att fly." Doktrin: Blixtsnabb orbital precision, kryogenisk territoriekontroll och fokuserade prismastormar.',
     descEn:
-      'Allied and Atreides-inspired military coalition. Specialized in medium armor, long-range sonic/prism artillery, cryo defenses, and orbital ion strikes.',
+      'CLASSIFIED DIRECTIVE // VANGUARD COMMAND: "In the shadow of our orbital batteries, there is nowhere to hide." Doctrine: Surgical orbital precision, cryogenic area denial, and focused prism beams.',
     mentatName: 'Commander Valen',
-    mentatTitleSv: 'Taktisk Mentat // Orbitalkommando',
-    mentatTitleEn: 'Tactical Mentat // Orbital Command',
+    mentatTitleSv: 'Högste Taktiske Mentat // Orbitalflottan',
+    mentatTitleEn: 'Supreme Tactical Mentat // Orbital Command',
     primaryColor: '#2b7fff',
     secondaryColor: '#e6c15a',
     accentHex: 0x2b7fff,
@@ -54,15 +56,16 @@ export const FACTIONS: Record<FactionId, FactionDef> = {
     id: 'directorate',
     name: 'Iron Directorate',
     shortName: 'DIRECTORATE',
-    mottoSv: 'Tungt Stål, Högspänning & Atomkraft',
-    mottoEn: 'Heavy Steel, High Voltage & Atomic Power',
+    portraitImage: 'assets/mentats/directorate_voronin.jpg',
+    mottoSv: 'STÅL SVIKER ALDRIG. KÖTT BRINNER.',
+    mottoEn: 'STEEL NEVER FAILS. FLESH BURNS.',
     descSv:
-      'Sovjet- och Harkonnen-inspirerat industridirektorat. Krossar motståndet med dubbelpipiga Mammoth/Devastator-stridsvagnar, eldkastartorn, Tesla-spolar och taktik-kärnvapen.',
+      'KLASSIFICERAT DIREKTIV // IRON CORE: "Kompromisslös eldkraft är den enda lagen på Kryos-IV." Doktrin: Brutalt dubbelpipigt reaktorpansar, förintande eldkastardivisioner, Tesla-urladdningar och atomrobotar.',
     descEn:
-      'Soviet and Harkonnen-inspired industrial directorate. Crushes opposition with twin-barrel Mammoth/Devastator tanks, flame towers, Tesla coils, and tactical nukes.',
+      'CLASSIFIED DIRECTIVE // IRON CORE: "Uncompromising firepower is the sole law on Kryos-IV." Doctrine: Brutal twin-barrel reactor armor, devastating napalm shock divisions, Tesla coils, and nuclear silos.',
     mentatName: 'Commissar Voronin',
     mentatTitleSv: 'Överkommissarie // Pansardivisionen',
-    mentatTitleEn: 'High Commissar // Armored Division',
+    mentatTitleEn: 'High Commissar // Armored Iron Legion',
     primaryColor: '#e03131',
     secondaryColor: '#ff922b',
     accentHex: 0xe03131,
@@ -79,15 +82,16 @@ export const FACTIONS: Record<FactionId, FactionDef> = {
     id: 'nexus',
     name: 'Syndicate Nexus',
     shortName: 'NEXUS',
-    mottoSv: 'Skuggkrig, Kemisk Kontroll & Sabotage',
-    mottoEn: 'Shadow Warfare, Chemical Control & Sabotage',
+    portraitImage: 'assets/mentats/nexus_kira.jpg',
+    mottoSv: 'DINA VAPEN TILLHÖR OSS REDAN.',
+    mottoEn: 'YOUR WEAPONS BELONG TO US ALREADY.',
     descSv:
-      'Ordos- och Nod-inspirerat högteknologiskt syndikat. Använder extremt snabba Raider-fordon, kamouflerade Stealth Tanks, nervgas-Deviators som vänder fiendens vagnar och EMP/Chaos-pulser.',
+      'KLASSIFICERAT DIREKTIV // SHADOW MATRIX: "Kriget avgörs innan fienden ens har upptäckt vårt första drag." Doktrin: Syntetisk nervgas som vänder fientliga fordon, osynliga kamouflagejägare och förlamande EMP-pulser.',
     descEn:
-      'Ordos and Nod-inspired high-tech syndicate. Fields ultra-fast Raider vehicles, cloaked Stealth Tanks, nerve-gas Deviators that turn enemy vehicles, and EMP/Chaos pulses.',
+      'CLASSIFIED DIRECTIVE // SHADOW MATRIX: "The battle is won before the enemy detects our first strike." Doctrine: Synthetic neurotoxin hijacking enemy armor, cloaked stealth hunters, and crippling EMP pulses.',
     mentatName: 'Prime Executive Kira',
-    mentatTitleSv: 'Syntetisk Mentat // Skuggdirektoratet',
-    mentatTitleEn: 'Synthetic Mentat // Shadow Directorate',
+    mentatTitleSv: 'Prime Executive // Cybernetiska Skuggkollektivet',
+    mentatTitleEn: 'Prime Executive // Cybernetic Shadow Directorate',
     primaryColor: '#20c997',
     secondaryColor: '#f59f00',
     accentHex: 0x20c997,

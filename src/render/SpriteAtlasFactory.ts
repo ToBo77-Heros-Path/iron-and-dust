@@ -674,6 +674,11 @@ export class SpriteAtlasFactory {
    * Generates a high-detail pixel/2.5D Commander Mentat Portrait DataURL (160x160).
    */
   public static getMentatPortraitUrl(faction: FactionId): string {
+    const fDef = FACTIONS[faction];
+    if (fDef?.portraitImage) {
+      return fDef.portraitImage;
+    }
+
     const cached = this.mentatUrlCache.get(faction);
     if (cached) return cached;
 
@@ -681,7 +686,6 @@ export class SpriteAtlasFactory {
     canvas.width = 160;
     canvas.height = 160;
     const ctx = canvas.getContext('2d')!;
-    const fDef = FACTIONS[faction];
 
     // Background tactical screen
     const bg = ctx.createRadialGradient(80, 70, 10, 80, 80, 100);

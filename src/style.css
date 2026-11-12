@@ -1,18 +1,18 @@
 :root {
-  --bg-deep: #090c10;
-  --bg-panel: #151c26;
-  --bg-panel-alt: #1b2432;
-  --bg-card: #1d2635;
+  --bg-deep: #070a0e;
+  --bg-panel: #141b24;
+  --bg-panel-alt: #1a2330;
+  --bg-card: #1c2635;
   --border-steel: #384659;
   --border-highlight: #5a718e;
   --text-main: #edf2f7;
   --text-muted: #94a3b8;
   --amber: #f59f00;
-  --amber-glow: rgba(245, 159, 0, 0.28);
+  --amber-glow: rgba(245, 159, 0, 0.35);
   --crimson: #e03131;
   --emerald: #20c997;
   --cobalt: #2b7fff;
-  --font-display: 'Chakra Petch', sans-serif;
+  --font-display: 'Orbitron', 'Chakra Petch', sans-serif;
   --font-mono: 'Share Tech Mono', monospace;
 }
 
@@ -67,202 +67,349 @@ html, body, #app {
   position: absolute;
   inset: 0;
   pointer-events: auto;
-  background: radial-gradient(circle at 50% 25%, rgba(16, 23, 34, 0.85), rgba(7, 10, 15, 0.95));
-  backdrop-filter: blur(5px);
+  background: radial-gradient(circle at 50% 25%, rgba(18, 25, 38, 0.88), rgba(6, 9, 14, 0.97));
+  backdrop-filter: blur(6px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 22px 30px;
+  padding: 24px 32px;
   overflow-y: auto;
 }
 
 .topbar-controls {
   width: 100%;
-  max-width: 1240px;
+  max-width: 1260px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 14px;
-  border-bottom: 2px solid var(--border-steel);
-  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid #2d3b4e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  margin-bottom: 20px;
   gap: 12px;
   flex-wrap: wrap;
 }
 
 .brand-block h1 {
-  font-size: 1.9rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 2.1rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #ffffff;
-  text-shadow: 0 2px 12px rgba(224, 49, 49, 0.45);
+  text-shadow:
+    0 1px 0 #b3c2d6,
+    0 2px 0 #899ab3,
+    0 3px 0 #5b6e8a,
+    0 4px 0 #324054,
+    0 5px 6px rgba(0, 0, 0, 0.8),
+    0 0 24px rgba(224, 49, 49, 0.65);
 }
 
 .brand-block .subtitle {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--amber);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
+  text-shadow: 0 0 10px rgba(245, 159, 0, 0.4);
 }
 
 .toolbar-btns {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
+/* 3D Tactile "Press-Down" Mechanical Buttons */
 .tac-btn {
   pointer-events: auto;
-  background: linear-gradient(180deg, #2a3649 0%, #171f2c 100%);
-  color: var(--text-main);
-  border: 1.5px solid var(--border-highlight);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 2px 6px rgba(0, 0, 0, 0.45);
-  padding: 8px 15px;
+  background: linear-gradient(180deg, #2c384a 0%, #18212e 100%);
+  color: #edf2f7;
+  border: 1.5px solid #556c8a;
+  border-bottom: 4px solid #0d131c;
+  box-shadow:
+    0 4px 0 #0d131c,
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 6px 14px rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  padding: 10px 18px;
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.84rem;
-  letter-spacing: 0.05em;
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.14s ease;
+  transition: transform 0.06s ease, border-color 0.12s ease, box-shadow 0.06s ease;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
+  position: relative;
 }
 
 .tac-btn:hover {
-  background: linear-gradient(180deg, #364760 0%, #1e293b 100%);
+  background: linear-gradient(180deg, #37465c 0%, #1e293a 100%);
   border-color: var(--amber);
   color: #fff;
-  transform: translateY(-1px);
+  box-shadow:
+    0 4px 0 #0d131c,
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 0 18px rgba(245, 159, 0, 0.45);
+}
+
+.tac-btn:active {
+  transform: translateY(3px);
+  border-bottom: 2px solid #0d131c;
+  box-shadow:
+    0 1px 0 #0d131c,
+    inset 0 2px 5px rgba(0, 0, 0, 0.7);
 }
 
 .tac-btn.primary {
-  background: linear-gradient(180deg, #d9480f 0%, #9c2b07 100%);
-  border-color: #ff922b;
+  background: linear-gradient(180deg, #e8590c 0%, #a62a04 100%);
+  border-color: #ffa94d;
+  border-bottom: 4px solid #521501;
+  box-shadow:
+    0 4px 0 #521501,
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 6px 16px rgba(232, 89, 12, 0.5);
   color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 .tac-btn.primary:hover {
-  background: linear-gradient(180deg, #f76707 0%, #b8330a 100%);
-  box-shadow: 0 0 16px rgba(247, 103, 7, 0.45);
+  background: linear-gradient(180deg, #f76707 0%, #c23305 100%);
+  border-color: #ffd8a8;
+  box-shadow:
+    0 4px 0 #521501,
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 0 24px rgba(247, 103, 7, 0.65);
+}
+
+.tac-btn.primary:active {
+  transform: translateY(3px);
+  border-bottom: 2px solid #521501;
+  box-shadow:
+    0 1px 0 #521501,
+    inset 0 2px 6px rgba(0, 0, 0, 0.75);
 }
 
 .tac-btn.active {
-  background: linear-gradient(180deg, #2b7fff 0%, #1850b5 100%);
+  background: linear-gradient(180deg, #1971c2 0%, #0c4375 100%);
   border-color: #74c0fc;
+  border-bottom: 4px solid #05233e;
+  box-shadow:
+    0 4px 0 #05233e,
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 18px rgba(116, 192, 252, 0.5);
 }
 
-/* Faction Cards */
+.tac-btn.active:active {
+  transform: translateY(3px);
+  border-bottom: 2px solid #05233e;
+  box-shadow: 0 1px 0 #05233e, inset 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Faction Cards - 3D Sculpted Terminal Panels */
 .section-header {
   text-align: center;
-  max-width: 820px;
-  margin-bottom: 18px;
+  max-width: 860px;
+  margin-bottom: 22px;
 }
 
 .section-header h2 {
-  font-size: 1.55rem;
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
 .section-header p {
   color: var(--text-muted);
   font-size: 0.95rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
 }
 
 .factions-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
   width: 100%;
-  max-width: 1240px;
-  margin-bottom: 22px;
+  max-width: 1260px;
+  margin-bottom: 24px;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1060px) {
   .factions-grid {
     grid-template-columns: 1fr;
   }
 }
 
 .faction-card {
-  background: linear-gradient(180deg, #1b2432 0%, #0e131b 100%);
-  border: 2px solid var(--border-steel);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 24px rgba(0, 0, 0, 0.65);
-  padding: 18px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(45, 62, 85, 0.28), transparent 70%),
+    linear-gradient(180deg, #1a2330 0%, #111722 55%, #0a0d13 100%);
+  border: 2px solid #3c4c62;
+  border-top: 4px solid var(--border-highlight);
+  border-radius: 6px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 12px 32px rgba(0, 0, 0, 0.75),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
-  transition: transform 0.16s ease, border-color 0.16s ease;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
   position: relative;
+  overflow: hidden;
 }
 
-.faction-card:hover,
-.faction-card.selected {
-  transform: translateY(-3px);
+.faction-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+.faction-card:hover {
+  transform: translateY(-4px) scale(1.01);
   border-color: var(--amber);
+  border-top-color: #ffd43b;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 16px 40px rgba(0, 0, 0, 0.85),
+    0 0 24px rgba(245, 159, 0, 0.25);
+}
+
+.faction-card.selected {
+  border-color: #ff922b;
+  border-top-color: #ffd43b;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 16px 42px rgba(0, 0, 0, 0.9),
+    0 0 28px rgba(255, 146, 43, 0.35);
 }
 
 .faction-crest {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 14px;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* Cinematic 3D Mentat Portrait Frame */
+.mentat-thumb-frame {
+  width: 92px;
+  height: 92px;
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 4px;
+  padding: 3px;
+  background: linear-gradient(135deg, #4c6382 0%, #151d28 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
 }
 
 .mentat-thumb {
-  width: 68px;
-  height: 68px;
-  border: 2px solid var(--amber);
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  background: #080b10;
-  flex-shrink: 0;
+  border-radius: 2px;
+  display: block;
 }
 
 .faction-card h3 {
-  font-size: 1.3rem;
-  letter-spacing: 0.05em;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .faction-motto {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
+  font-weight: 700;
   color: var(--amber);
-  margin-top: 2px;
+  margin-top: 3px;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
 }
 
 .faction-desc {
-  font-size: 0.88rem;
-  line-height: 1.45;
-  color: var(--text-muted);
-  margin-bottom: 12px;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #cbd5e1;
+  font-family: 'Share Tech Mono', monospace;
+  margin-bottom: 14px;
+  background: rgba(8, 12, 18, 0.6);
+  padding: 10px 12px;
+  border-left: 3px solid var(--border-highlight);
+  border-radius: 0 3px 3px 0;
 }
 
+/* High-Tech Signature Weapons Showcase Strip */
 .unit-showcase-strip {
   display: flex;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
-.unit-showcase-strip img {
-  width: 32%;
-  height: 48px;
+.signature-unit-chip {
+  flex: 1;
+  background: #090e15;
+  border: 1.5px solid #2e3b4e;
+  border-radius: 3px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.7);
+  transition: border-color 0.12s ease;
+}
+
+.signature-unit-chip:hover {
+  border-color: var(--amber);
+}
+
+.signature-unit-chip img {
+  width: 100%;
+  height: 52px;
   object-fit: cover;
-  border: 1px solid var(--border-steel);
+  border-radius: 2px;
+}
+
+.signature-unit-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-top: 3px;
+  letter-spacing: 0.06em;
 }
 
 .faction-stats {
-  border-top: 1px solid var(--border-steel);
-  padding-top: 10px;
+  border-top: 1.5px solid #283547;
+  padding-top: 12px;
   font-family: var(--font-mono);
   font-size: 0.78rem;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-bottom: 14px;
+  gap: 5px;
+  margin-bottom: 16px;
+  background: rgba(6, 9, 14, 0.4);
+  padding: 10px;
+  border-radius: 3px;
 }
 
 /* Planetary Conquest Map */

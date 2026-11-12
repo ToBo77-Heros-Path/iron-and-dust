@@ -155,6 +155,13 @@ class RedSectorApp {
       this.keysPressed.delete(e.key.toLowerCase());
     });
 
+    window.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement | null;
+      if (target?.closest('.tac-btn, .faction-card, .cameo-btn, [data-pick-sector], [data-sector]')) {
+        this.audio.playClick();
+      }
+    });
+
     canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
     canvas.addEventListener('wheel', (e) => {
@@ -461,29 +468,32 @@ class RedSectorApp {
       const swName = this.lang === 'sv' ? fac.superweaponNameSv : fac.superweaponNameEn;
       const mentatImg = SpriteAtlasFactory.getMentatPortraitUrl(fac.id);
 
-      const sampleUnits: [string, boolean][] =
+      const sampleUnits: [string, string, boolean][] =
         fac.id === 'vanguard'
           ? [
-              ['medium_tank', false],
-              ['sonic_artillery', false],
-              ['cryo_turret', true]
+              ['medium_tank', 'MEDIUM TANK', false],
+              ['sonic_artillery', 'SONIC CANNON', false],
+              ['cryo_turret', 'CRYO TURRET', true]
             ]
           : fac.id === 'directorate'
           ? [
-              ['heavy_siege_tank', false],
-              ['mammoth_devastator', false],
-              ['tesla_coil', true]
+              ['heavy_siege_tank', 'HEAVY SIEGE', false],
+              ['mammoth_devastator', 'MAMMOTH TANK', false],
+              ['tesla_coil', 'TESLA COIL', true]
             ]
           : [
-              ['stealth_tank', false],
-              ['deviator_tank', false],
-              ['laser_turret', true]
+              ['stealth_tank', 'STEALTH TANK', false],
+              ['deviator_tank', 'DEVIATOR TANK', false],
+              ['laser_turret', 'LASER TURRET', true]
             ];
 
       const showcaseHtml = sampleUnits
         .map(
-          ([id, isB]) =>
-            `<img src="${SpriteAtlasFactory.getCameoUrl(id as any, fac.id, isB)}" alt="${id}" />`
+          ([id, label, isB]) =>
+            `<div class="signature-unit-chip">
+              <img src="${SpriteAtlasFactory.getCameoUrl(id as any, fac.id, isB)}" alt="${id}" />
+              <div class="signature-unit-tag">${label}</div>
+            </div>`
         )
         .join('');
 
@@ -491,7 +501,9 @@ class RedSectorApp {
         <article class="faction-card ${isSelected ? 'selected' : ''}" data-faction="${fac.id}" id="faction-card-${fac.id}">
           <div>
             <div class="faction-crest">
-              <img src="${mentatImg}" alt="${fac.mentatName}" class="mentat-thumb" />
+              <div class="mentat-thumb-frame">
+                <img src="${mentatImg}" alt="${fac.mentatName}" class="mentat-thumb" />
+              </div>
               <div>
                 <h3>${fac.name}</h3>
                 <div class="faction-motto">${motto}</div>
@@ -679,7 +691,9 @@ class RedSectorApp {
           <div class="mentat-panel">
             <div>
               <div class="mentat-header">
-                <img src="${mentatPortrait}" alt="${fac.mentatName}" class="mentat-portrait-img" />
+                <div class="mentat-thumb-frame" style="width:112px; height:112px;">
+                  <img src="${mentatPortrait}" alt="${fac.mentatName}" class="mentat-thumb" />
+                </div>
                 <div>
                   <div style="font-family:var(--font-mono); font-size:0.76rem; color:var(--amber);">
                     ${this.t('mentatBriefing')} // ${currentMission.sectorCode}
