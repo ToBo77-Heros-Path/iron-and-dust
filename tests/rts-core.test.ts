@@ -102,4 +102,19 @@ describe('RED SECTOR: DUNE PROTOCOL - RTS Engine Verification', () => {
     expect(world2.players[1].credits).toBe(4321);
     expect(world2.missionId).toBe(mission.id);
   });
+
+  it('does not trigger instant win in Sector 1 and tracks harvested credits towards quota', () => {
+    const mission = CAMPAIGNS.vanguard[0]; // Sector 1: harvest_quota
+    const world = new GameWorld(mission, { difficulty: 'recruit' });
+
+    // Tick the world
+    world.update(0.1);
+    expect(world.status).toBe('playing');
+    expect(world.players[1].harvestedCredits).toBe(0);
+
+    // Simulate harvester unloading 1500 ore
+    world.players[1].harvestedCredits = 1500;
+    world.update(0.1);
+    expect(world.status).toBe('victory');
+  });
 });

@@ -591,6 +591,20 @@ html, body, #app {
   animation: pulse-glow 2.2s infinite ease-in-out;
 }
 
+.objective-badge {
+  background: rgba(30, 58, 138, 0.45);
+  border: 1.5px solid #3b82f6;
+  color: #93c5fd;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
 @keyframes pulse-glow {
   0%, 100% { opacity: 0.85; }
   50% { opacity: 1; text-shadow: 0 0 8px rgba(81, 207, 102, 0.8); }

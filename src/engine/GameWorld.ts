@@ -92,6 +92,7 @@ export interface PlayerState {
   owner: number;
   faction: FactionId;
   credits: number;
+  harvestedCredits: number;
   powerProduced: number;
   powerConsumed: number;
   radarOnline: boolean;
@@ -221,6 +222,7 @@ export class GameWorld {
       owner: 1,
       faction: mission.faction,
       credits: mission.startingCredits + bonusCredits,
+      harvestedCredits: 0,
       powerProduced: 0,
       powerConsumed: 0,
       radarOnline: false,
@@ -238,6 +240,7 @@ export class GameWorld {
       owner: 2,
       faction: mission.enemyFaction,
       credits: mission.enemyStartingCredits,
+      harvestedCredits: 0,
       powerProduced: 0,
       powerConsumed: 0,
       radarOnline: false,
@@ -1187,6 +1190,7 @@ export class GameWorld {
         const p = this.players[u.owner];
         if (p) {
           p.credits += u.oreCarried;
+          p.harvestedCredits = (p.harvestedCredits || 0) + u.oreCarried;
           if (u.owner === 1 && u.oreCarried > 0) {
             this.events.onSfx?.('cash');
           }
@@ -1674,11 +1678,11 @@ export class GameWorld {
       return;
     }
 
-    // Harvest quota mission win condition
+    // Harvest quota mission win condition: check actual Pyronite ore harvested from the field!
     if (
       this.missionType === 'harvest_quota' &&
       this.targetCreditsQuota &&
-      this.players[1].credits >= this.targetCreditsQuota
+      (this.players[1].harvestedCredits || 0) >= this.targetCreditsQuota
     ) {
       this.status = 'victory';
       this.events.onEvaSpeech?.('Mission Accomplished');

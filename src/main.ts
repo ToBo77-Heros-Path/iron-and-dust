@@ -799,6 +799,7 @@ class RedSectorApp {
           <div class="mission-banner">
             <span class="sector-tag">${this.activeMission.sectorCode} // TECH ${this.world.techLevel}</span>
             <span id="hud-peace-badge" class="peace-badge" style="display:none;"></span>
+            <span id="hud-objective-badge" class="objective-badge"></span>
             <strong>${mTitle}</strong>
             <button id="hud-btn-save" class="ra-mini-btn" style="padding:4px 8px;">💾 ${this.t('saveGame')}</button>
             <button id="hud-btn-load" class="ra-mini-btn" style="padding:4px 8px;">📂 ${this.t('loadGame')}</button>
@@ -1157,6 +1158,30 @@ class RedSectorApp {
         peaceBadge.innerHTML = `🛡️ ${this.t('peaceTimer')}: ${mins}:${secs}`;
       } else {
         peaceBadge.style.display = 'none';
+      }
+    }
+
+    const objBadge = document.getElementById('hud-objective-badge');
+    if (objBadge) {
+      if (this.world.missionType === 'harvest_quota') {
+        const harvested = p1.harvestedCredits || 0;
+        const quota = this.world.targetCreditsQuota || 1500;
+        objBadge.innerHTML = `🎯 ${this.lang === 'sv' ? 'SKÖRDA' : 'HARVEST'}: $${harvested} / $${quota}`;
+      } else if (this.world.missionType === 'commando_raid') {
+        const p1HasBase = this.world.buildings.some((b) => b.owner === 1 && b.buildingId === 'construction_yard');
+        if (!p1HasBase) {
+          objBadge.innerHTML = `🎯 ${this.lang === 'sv' ? 'VECKLA UT MCV PÅ KLIPPA' : 'DEPLOY MCV ON ROCK'}`;
+        } else {
+          const enemyLeft =
+            this.world.buildings.filter((b) => b.owner !== 1).length +
+            this.world.units.filter((u) => u.owner !== 1).length;
+          objBadge.innerHTML = `🎯 ${this.lang === 'sv' ? 'ELIMINERA FIENDEN' : 'ELIMINATE ENEMY'}: ${enemyLeft}`;
+        }
+      } else {
+        const enemyLeft =
+          this.world.buildings.filter((b) => b.owner !== 1).length +
+          this.world.units.filter((u) => u.owner !== 1).length;
+        objBadge.innerHTML = `🎯 ${this.lang === 'sv' ? 'ELIMINERA FIENDEN' : 'ELIMINATE ENEMY'}: ${enemyLeft}`;
       }
     }
 
